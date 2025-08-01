@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum ProductStatus {
+  AVAILABLE
+  SOLD
+  CANCELLED
+}
+
+model Seller {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  phone     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products Product[]
+  views    View[]
+
+  @@map("sellers")
+}
+
+model Product {
+  id           String        @id @default(uuid())
+  title        String
+  description  String        @db.Text
+  priceInCents Int
+  status       ProductStatus @default(AVAILABLE)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  sellerId   String
+  seller     Seller   @relation(fields: [sellerId], references: [id])
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  attachments Attachment[]
+  views       View[]
+
+  @@map("products")
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String @unique
+  slug String @unique 
+
+  products Product[]
+
+  @@map("categories")
+}
+
+model Attachment {
+  id        String   @id @default(uuid())
+  title     String
+  url       String
+  createdAt DateTime @default(now())
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@map("attachments")
+}
+
+model View {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  viewerId  String
+  viewer    Seller  @relation(fields: [viewerId], references: [id])
+
+  @@unique([productId, viewerId])
+  @@map("views")
+}
