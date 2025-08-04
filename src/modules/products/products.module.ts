@@ -5,10 +5,16 @@ import { ProductsController } from './products.controller';
 import { ProductsRepository } from './repositories/products.repository';
 import { CreateProductService } from './services/create-product.service';
 import { AttachmentsModule } from '../attachments/attachments.module';
+import { ListAllProductsService } from './services/list-all-products.service';
 
 @Module({
   imports: [CategoriesModule, AttachmentsModule],
   controllers: [ProductsController],
-  providers: [PrismaService, ProductsRepository, CreateProductService],
+  providers: [
+    PrismaService,
+    ProductsRepository,
+    CreateProductService,
+    ListAllProductsService,
+  ],
 })
 export class ProductsModule {}
