@@ -51,7 +51,7 @@ model Product {
 model Category {
   id   String @id @default(uuid())
   name String @unique
-  slug String @unique 
+  slug String @unique
 
   products Product[]
 
@@ -64,8 +64,8 @@ model Attachment {
   url       String
   createdAt DateTime @default(now())
 
-  productId String
-  product   Product @relation(fields: [productId], references: [id])
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id])
 
   @@map("attachments")
 }

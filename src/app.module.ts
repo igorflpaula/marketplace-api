@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { ProductsModule } from './modules/products/products.module';
+import { AttachmentsModule } from './modules/attachments/attachments.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -15,6 +16,7 @@ import { ProductsModule } from './modules/products/products.module';
     AuthModule,
     CategoriesModule,
     ProductsModule,
+    AttachmentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
