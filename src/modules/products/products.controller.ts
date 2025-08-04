@@ -9,6 +9,7 @@ import {
   Query,
   Param,
   Put,
+  Patch,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
@@ -31,6 +32,12 @@ import {
   editProductParamsSchema,
 } from './dtos/edit-product.dto';
 import { ListSellerProductsService } from './services/list-seller-products.service';
+import { ChangeProductStatusService } from './services/change-product-status.service';
+import {
+  changeProductStatusBodySchema,
+  changeProductStatusParamsSchema,
+  type ChangeProductStatusBodySchema,
+} from './dtos/change-product-status.dto';
 
 interface CurrentUserPayload {
   userId: string;
@@ -45,7 +52,33 @@ export class ProductsController {
     private readonly getProductDetailsService: GetProductDetailsService,
     private readonly editProductService: EditProductService,
     private readonly listSellerProductsService: ListSellerProductsService,
+    private readonly changeProductStatusService: ChangeProductStatusService,
   ) {}
+
+  @Patch('/:id/status')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(204)
+  async changeStatus(
+    @CurrentUser() user: CurrentUserPayload,
+    @Param() params: { id: string },
+    @Body() body: ChangeProductStatusBodySchema,
+  ) {
+    const paramsResult = changeProductStatusParamsSchema.safeParse(params);
+    if (!paramsResult.success) {
+      throw new BadRequestException(paramsResult.error.flatten().fieldErrors);
+    }
+
+    const bodyResult = changeProductStatusBodySchema.safeParse(body);
+    if (!bodyResult.success) {
+      throw new BadRequestException(bodyResult.error.flatten().fieldErrors);
+    }
+
+    await this.changeProductStatusService.execute(
+      paramsResult.data.id,
+      user.userId,
+      bodyResult.data.status,
+    );
+  }
 
   @Get('/me')
   @UseGuards(JwtAuthGuard)

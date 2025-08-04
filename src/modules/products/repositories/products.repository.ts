@@ -3,6 +3,7 @@ import { PrismaService } from 'src/infra/database/prisma.service';
 import { type CreateProductBodySchema } from '../dtos/create-product.dto';
 import { type ListProductsQuerySchema } from '../dtos/list-products.dto';
 import { type EditProductBodySchema } from '../dtos/edit-product.dto';
+import { ProductStatus } from '@prisma/client';
 
 @Injectable()
 export class ProductsRepository {
@@ -109,6 +110,13 @@ export class ProductsRepository {
           },
         }),
       },
+    });
+  }
+
+  async updateStatus(productId: string, status: ProductStatus) {
+    return this.prisma.product.update({
+      where: { id: productId },
+      data: { status },
     });
   }
 }
