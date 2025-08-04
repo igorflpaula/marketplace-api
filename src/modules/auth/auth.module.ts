@@ -6,6 +6,7 @@ import { AuthController } from './auth.controller';
 import { AuthenticateSellerService } from './services/authenticate-seller.service';
 import { SellersRepository } from '../sellers/repositories/sellers.repository';
 import { PrismaService } from 'src/infra/database/prisma.service';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -26,6 +27,11 @@ import { PrismaService } from 'src/infra/database/prisma.service';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthenticateSellerService, SellersRepository, PrismaService],
+  providers: [
+    AuthenticateSellerService,
+    SellersRepository,
+    PrismaService,
+    JwtStrategy,
+  ],
 })
 export class AuthModule {}

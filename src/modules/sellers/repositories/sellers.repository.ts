@@ -29,4 +29,10 @@ export class SellersRepository {
       },
     });
   }
+
+  async findById(id: string): Promise<Seller | null> {
+    return this.prisma.seller.findUnique({
+      where: { id },
+    });
+  }
 }
