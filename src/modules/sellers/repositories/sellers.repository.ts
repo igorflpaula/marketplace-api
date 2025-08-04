@@ -35,4 +35,11 @@ export class SellersRepository {
       where: { id },
     });
   }
+
+  async update(id: string, data: Partial<Seller>): Promise<Seller> {
+    return this.prisma.seller.update({
+      where: { id },
+      data,
+    });
+  }
 }
