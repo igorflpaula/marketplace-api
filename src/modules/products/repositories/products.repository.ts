@@ -76,4 +76,21 @@ export class ProductsRepository {
       totalPages: Math.ceil(totalCount / perPage),
     };
   }
+
+  async findById(id: string) {
+    return this.prisma.product.findUnique({
+      where: { id },
+      include: {
+        seller: {
+          select: {
+            id: true,
+            name: true,
+            phone: true,
+          },
+        },
+        category: true,
+        attachments: true,
+      },
+    });
+  }
 }

@@ -6,6 +6,7 @@ import { ProductsRepository } from './repositories/products.repository';
 import { CreateProductService } from './services/create-product.service';
 import { AttachmentsModule } from '../attachments/attachments.module';
 import { ListAllProductsService } from './services/list-all-products.service';
+import { GetProductDetailsService } from './services/get-product-details.service';
 
 @Module({
   imports: [CategoriesModule, AttachmentsModule],
@@ -15,6 +16,7 @@ import { ListAllProductsService } from './services/list-all-products.service';
     ProductsRepository,
     CreateProductService,
     ListAllProductsService,
+    GetProductDetailsService,
   ],
 })
 export class ProductsModule {}
