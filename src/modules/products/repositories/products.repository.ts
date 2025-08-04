@@ -7,11 +7,30 @@ export class ProductsRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: CreateProductBodySchema, sellerId: string) {
-    return this.prisma.product.create({
-      data: {
-        ...data,
-        sellerId,
-      },
+    const { attachmentsIds, ...productData } = data;
+
+    return this.prisma.$transaction(async (tx) => {
+      const product = await tx.product.create({
+        data: {
+          ...productData,
+          sellerId,
+        },
+      });
+
+      if (attachmentsIds && attachmentsIds.length > 0) {
+        await tx.attachment.updateMany({
+          where: {
+            id: {
+              in: attachmentsIds,
+            },
+          },
+          data: {
+            productId: product.id,
+          },
+        });
+      }
+
+      return product;
     });
   }
 }

@@ -4,9 +4,10 @@ import { CategoriesModule } from '../categories/categories.module'; // Importa o
 import { ProductsController } from './products.controller';
 import { ProductsRepository } from './repositories/products.repository';
 import { CreateProductService } from './services/create-product.service';
+import { AttachmentsModule } from '../attachments/attachments.module';
 
 @Module({
-  imports: [CategoriesModule],
+  imports: [CategoriesModule, AttachmentsModule],
   controllers: [ProductsController],
   providers: [PrismaService, ProductsRepository, CreateProductService],
 })

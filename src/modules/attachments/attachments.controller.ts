@@ -8,15 +8,15 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { R2Storage } from 'src/infra/storage/r2-storage';
-import { PrismaService } from 'src/infra/database/prisma.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { AttachmentsRepository } from './repositories/attachments.repository';
 
 @Controller('/attachments')
 @UseGuards(JwtAuthGuard)
 export class AttachmentsController {
   constructor(
     private storage: R2Storage,
-    private prisma: PrismaService,
+    private attachmentsRepository: AttachmentsRepository,
   ) {}
 
   @Post()
@@ -32,13 +32,10 @@ export class AttachmentsController {
       file.buffer,
     );
 
-    const attachment = await this.prisma.attachment.create({
-      data: {
-        title: file.originalname,
-        url: url,
-        productId: null,
-      },
-    });
+    const attachment = await this.attachmentsRepository.create(
+      file.originalname,
+      url,
+    );
 
     return {
       attachmentId: attachment.id,

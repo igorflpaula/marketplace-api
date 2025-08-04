@@ -5,6 +5,7 @@ export const createProductBodySchema = z.object({
   description: z.string().min(10),
   priceInCents: z.number().int().positive(),
   categoryId: z.string().uuid(),
+  attachmentsIds: z.array(z.string().uuid()).optional(),
 });
 
 export type CreateProductBodySchema = z.infer<typeof createProductBodySchema>;
