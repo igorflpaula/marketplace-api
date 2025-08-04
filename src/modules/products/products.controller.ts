@@ -30,6 +30,8 @@ import {
   type EditProductBodySchema,
   editProductParamsSchema,
 } from './dtos/edit-product.dto';
+import { ListSellerProductsService } from './services/list-seller-products.service';
+
 interface CurrentUserPayload {
   userId: string;
 }
@@ -42,7 +44,23 @@ export class ProductsController {
     private readonly listAllProductsService: ListAllProductsService,
     private readonly getProductDetailsService: GetProductDetailsService,
     private readonly editProductService: EditProductService,
+    private readonly listSellerProductsService: ListSellerProductsService,
   ) {}
+
+  @Get('/me')
+  @UseGuards(JwtAuthGuard)
+  async findSellerProducts(
+    @CurrentUser() user: CurrentUserPayload,
+    @Query() query: ListProductsQuerySchema,
+  ) {
+    const result = listProductsQuerySchema.safeParse(query);
+
+    if (!result.success) {
+      throw new BadRequestException(result.error.flatten().fieldErrors);
+    }
+
+    return this.listSellerProductsService.execute(user.userId, result.data);
+  }
 
   @Put('/:id')
   @UseGuards(JwtAuthGuard)

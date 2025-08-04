@@ -36,11 +36,12 @@ export class ProductsRepository {
     });
   }
 
-  async findMany(query: ListProductsQuerySchema) {
+  async findMany(query: ListProductsQuerySchema, sellerId?: string) {
     const { page, status, q } = query;
     const perPage = 20;
 
     const where = {
+      ...(sellerId && { sellerId }),
       ...(status && { status }),
       ...(q && {
         OR: [{ title: { contains: q } }, { description: { contains: q } }],
