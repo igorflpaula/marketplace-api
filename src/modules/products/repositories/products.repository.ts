@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/infra/database/prisma.service';
 import { type CreateProductBodySchema } from '../dtos/create-product.dto';
 import { type ListProductsQuerySchema } from '../dtos/list-products.dto';
+import { type EditProductBodySchema } from '../dtos/edit-product.dto';
 
 @Injectable()
 export class ProductsRepository {
@@ -90,6 +91,22 @@ export class ProductsRepository {
         },
         category: true,
         attachments: true,
+      },
+    });
+  }
+
+  async update(productId: string, data: EditProductBodySchema) {
+    const { attachmentsIds, ...productData } = data;
+
+    return this.prisma.product.update({
+      where: { id: productId },
+      data: {
+        ...productData,
+        ...(attachmentsIds && {
+          attachments: {
+            set: attachmentsIds.map((id) => ({ id })),
+          },
+        }),
       },
     });
   }

@@ -8,6 +8,7 @@ import {
   Get,
   Query,
   Param,
+  Put,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
@@ -23,7 +24,12 @@ import {
 } from './dtos/list-products.dto';
 import { GetProductDetailsService } from './services/get-product-details.service';
 import { getProductDetailsParamsSchema } from './dtos/get-product-details.dto';
-
+import { EditProductService } from './services/edit-product.service';
+import {
+  editProductBodySchema,
+  type EditProductBodySchema,
+  editProductParamsSchema,
+} from './dtos/edit-product.dto';
 interface CurrentUserPayload {
   userId: string;
 }
@@ -35,9 +41,35 @@ export class ProductsController {
     private readonly createProductService: CreateProductService,
     private readonly listAllProductsService: ListAllProductsService,
     private readonly getProductDetailsService: GetProductDetailsService,
+    private readonly editProductService: EditProductService,
   ) {}
 
-  @Get('/:id') // Nova rota para detalhes
+  @Put('/:id')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(204)
+  async update(
+    @CurrentUser() user: CurrentUserPayload,
+    @Param() params: { id: string },
+    @Body() body: EditProductBodySchema,
+  ) {
+    const paramsResult = editProductParamsSchema.safeParse(params);
+    if (!paramsResult.success) {
+      throw new BadRequestException(paramsResult.error.flatten().fieldErrors);
+    }
+
+    const bodyResult = editProductBodySchema.safeParse(body);
+    if (!bodyResult.success) {
+      throw new BadRequestException(bodyResult.error.flatten().fieldErrors);
+    }
+
+    await this.editProductService.execute(
+      paramsResult.data.id,
+      user.userId,
+      bodyResult.data,
+    );
+  }
+
+  @Get('/:id')
   async findById(@Param() params: { id: string }) {
     const result = getProductDetailsParamsSchema.safeParse(params);
 

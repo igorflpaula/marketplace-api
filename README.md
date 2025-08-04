@@ -16,9 +16,9 @@
   - [x] Não deve ser possível criar/editar um Produto com um usuário inexistente
   - [x] Não deve ser possível criar/editar um Produto com uma categoria inexistente
   - [x] Não deve ser possível criar/editar um Produto com imagens inexistentes
-  - [ ] Não deve ser possível editar um Produto inexistente
-  - [ ] Não deve ser possível alterar um Produto de outro usuário
-  - [ ] Não deve ser possível editar um Produto já vendido
+  - [x] Não deve ser possível editar um Produto inexistente
+  - [x] Não deve ser possível alterar um Produto de outro usuário
+  - [x] Não deve ser possível editar um Produto já vendido
 - [x] Deve ser possível obter dados de um Produto
   - [x] Qualquer usuário deve poder obter dados do Produto
 - [x] Deve ser possível listar todas as categorias
