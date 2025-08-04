@@ -5,7 +5,7 @@ import { SellersModule } from './modules/sellers/sellers.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
 import { CategoriesModule } from './modules/categories/categories.module';
-
+import { ProductsModule } from './modules/products/products.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -14,6 +14,7 @@ import { CategoriesModule } from './modules/categories/categories.module';
     SellersModule,
     AuthModule,
     CategoriesModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -11,10 +11,10 @@
 - [x] Deve ser possível obter o token de autenticação
   - [x] Não deve ser possível se autenticar com credenciais incorretas
 - [ ] Deve ser possível realizar o upload de arquivos
-- [ ] Deve ser possível criar e editar um Produto
-  - [ ] Deve ser possível armazenar o valor do produto em centavos
-  - [ ] Não deve ser possível criar/editar um Produto com um usuário inexistente
-  - [ ] Não deve ser possível criar/editar um Produto com uma categoria inexistente
+- [x] Deve ser possível criar e editar um Produto
+  - [x] Deve ser possível armazenar o valor do produto em centavos
+  - [x] Não deve ser possível criar/editar um Produto com um usuário inexistente
+  - [x] Não deve ser possível criar/editar um Produto com uma categoria inexistente
   - [ ] Não deve ser possível criar/editar um Produto com imagens inexistentes
   - [ ] Não deve ser possível editar um Produto inexistente
   - [ ] Não deve ser possível alterar um Produto de outro usuário
