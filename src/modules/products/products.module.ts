@@ -10,9 +10,11 @@ import { GetProductDetailsService } from './services/get-product-details.service
 import { EditProductService } from './services/edit-product.service';
 import { ListSellerProductsService } from './services/list-seller-products.service';
 import { ChangeProductStatusService } from './services/change-product-status.service';
+import { ViewsModule } from '../views/views.module';
+import { RegisterProductViewService } from './services/register-product-view.service';
 
 @Module({
-  imports: [CategoriesModule, AttachmentsModule],
+  imports: [CategoriesModule, AttachmentsModule, ViewsModule],
   controllers: [ProductsController],
   providers: [
     PrismaService,
@@ -23,6 +25,7 @@ import { ChangeProductStatusService } from './services/change-product-status.ser
     EditProductService,
     ListSellerProductsService,
     ChangeProductStatusService,
+    RegisterProductViewService,
   ],
 })
 export class ProductsModule {}

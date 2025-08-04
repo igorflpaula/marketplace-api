@@ -38,6 +38,8 @@ import {
   changeProductStatusParamsSchema,
   type ChangeProductStatusBodySchema,
 } from './dtos/change-product-status.dto';
+import { RegisterProductViewService } from './services/register-product-view.service';
+import { registerProductViewParamsSchema } from './dtos/register-product-view.dto';
 
 interface CurrentUserPayload {
   userId: string;
@@ -53,7 +55,26 @@ export class ProductsController {
     private readonly editProductService: EditProductService,
     private readonly listSellerProductsService: ListSellerProductsService,
     private readonly changeProductStatusService: ChangeProductStatusService,
+    private readonly registerProductViewService: RegisterProductViewService,
   ) {}
+
+  @Post('/:id/view')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(204)
+  async registerView(
+    @CurrentUser() user: CurrentUserPayload,
+    @Param() params: { id: string },
+  ) {
+    const paramsResult = registerProductViewParamsSchema.safeParse(params);
+    if (!paramsResult.success) {
+      throw new BadRequestException(paramsResult.error.flatten().fieldErrors);
+    }
+
+    await this.registerProductViewService.execute(
+      paramsResult.data.id,
+      user.userId,
+    );
+  }
 
   @Patch('/:id/status')
   @UseGuards(JwtAuthGuard)

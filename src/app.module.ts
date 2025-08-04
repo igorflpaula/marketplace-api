@@ -7,6 +7,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { ProductsModule } from './modules/products/products.module';
 import { AttachmentsModule } from './modules/attachments/attachments.module';
+import { ViewsModule } from './modules/views/views.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -17,6 +19,7 @@ import { AttachmentsModule } from './modules/attachments/attachments.module';
     CategoriesModule,
     ProductsModule,
     AttachmentsModule,
+    ViewsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
