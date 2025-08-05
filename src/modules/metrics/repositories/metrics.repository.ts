@@ -22,4 +22,19 @@ export class MetricsRepository {
 
     return result;
   }
+
+  async countAvailableProductsInLast30Days(sellerId: string): Promise<number> {
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    return this.prisma.product.count({
+      where: {
+        sellerId,
+        status: ProductStatus.AVAILABLE,
+        createdAt: {
+          gte: thirtyDaysAgo,
+        },
+      },
+    });
+  }
 }
