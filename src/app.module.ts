@@ -8,6 +8,7 @@ import { CategoriesModule } from './modules/categories/categories.module';
 import { ProductsModule } from './modules/products/products.module';
 import { AttachmentsModule } from './modules/attachments/attachments.module';
 import { ViewsModule } from './modules/views/views.module';
+import { MetricsModule } from './modules/metrics/metrics.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ViewsModule } from './modules/views/views.module';
     ProductsModule,
     AttachmentsModule,
     ViewsModule,
+    MetricsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
